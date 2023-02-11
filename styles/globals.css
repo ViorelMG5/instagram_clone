@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .hideIcons span {
+    @apply hidden;
+  }
+  .menuitem {
+    @apply flex items-center gap-4 hover:bg-[#fafafad9] p-2 cursor-pointer w-full justify-center md:justify-start;
+  }
+
+  .menuitem span {
+    @apply text-[16px] font-normal;
+  }
+
+  .menuIcon {
+    @apply w-6 h-6;
+  }
+}
