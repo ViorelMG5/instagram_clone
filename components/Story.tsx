@@ -6,7 +6,7 @@ export default function Story() {
 
   return (
     <div>
-      <ul className="flex gap-5">
+      <ul className="flex gap-3">
         <StoryIcon hasStory={story} />
         <StoryIcon hasStory={story} />
         <StoryIcon hasStory={story} />

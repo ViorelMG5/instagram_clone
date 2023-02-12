@@ -27,7 +27,7 @@ export default function Sidebar({ windowWidth }: SidebarProps) {
     <div className="md:p-5 border-r">
       {windowWidth > 768 && brand}
       <ul
-        className={`md:space-y-4 md:static md:block bg-white border-t md:border-t-0 py-1 md:py-0 left-0 fixed bottom-0 flex items-center justify-evenly w-full ${
+        className={`md:space-y-4 md:static z-20 md:block bg-white border-t md:border-t-0 py-1 md:py-0 left-0 fixed bottom-0 flex items-center justify-evenly w-full ${
           windowWidth < 1280 && "hideIcons"
         }`}
       >

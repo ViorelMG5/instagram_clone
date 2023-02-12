@@ -5,7 +5,7 @@ interface Props {
 }
 export default function StoryIcon({ hasStory }: Props) {
   return (
-    <li className="flex flex-col justify-center items-center">
+    <li className="flex flex-col justify-center items-center cursor-pointer">
       <div className={`${hasStory && "hasStory"}`}>
         <Image
           src={avatar}

@@ -4,20 +4,11 @@ import Content from "@/components/Content";
 import SecondaryBar from "@/components/SecondaryBar";
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
+import useAuth from "@/hooks/useAuth";
+import windowWidth from "@/hooks/useWidth";
 
 export default function Home() {
-  const [windowWidth, setWindowWitdh] = useState<number>(0);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setWindowWitdh(window.innerWidth);
-      const handleResize = () => setWindowWitdh(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-  }, []);
+  const { user } = useAuth();
   return (
     <>
       <Head>
@@ -27,11 +18,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {windowWidth < 768 && <Header />}
+        {windowWidth() < 768 && <Header />}
         <div className="md:flex justify-between min-h-screen">
-          {<Sidebar windowWidth={windowWidth} />}
+          {<Sidebar windowWidth={windowWidth()} />}
           <Content />
-          {windowWidth > 768 && <SecondaryBar />}
+          {windowWidth() > 991 && <SecondaryBar />}
         </div>
       </main>
     </>
