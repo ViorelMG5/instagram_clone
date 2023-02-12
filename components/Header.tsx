@@ -5,7 +5,7 @@ import logoBw from "../public/logobw.png";
 
 export default function Header() {
   return (
-    <header className="px-5 py-1 fixed top-0 w-full bg-white flex justify-between items-center border-b-2">
+    <header className="px-5 py-1 fixed z-30 top-0 w-full bg-white flex justify-between items-center border-b-2">
       <Image
         src={logoBw}
         alt="instagram clone logo"

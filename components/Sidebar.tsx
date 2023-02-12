@@ -13,8 +13,6 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ windowWidth }: SidebarProps) {
-  const { logout } = useAuth();
-
   const brand =
     windowWidth > 1280 ? (
       <Image className="w-[100px] mb-7" src={logo} alt="instagram clone logo" />
@@ -62,7 +60,6 @@ export default function Sidebar({ windowWidth }: SidebarProps) {
           />
           <span>Post</span>
         </li>
-        <button onClick={logout}>Logout</button>
       </ul>
     </div>
   );

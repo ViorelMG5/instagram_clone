@@ -8,7 +8,7 @@ import useAuth from "@/hooks/useAuth";
 import windowWidth from "@/hooks/useWidth";
 
 export default function Home() {
-  const { user } = useAuth();
+  // const { user, logout } = useAuth();
   return (
     <>
       <Head>
@@ -17,6 +17,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
         {windowWidth() < 768 && <Header />}
         <div className="md:flex justify-between min-h-screen">
