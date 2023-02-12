@@ -107,9 +107,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setLoading(true);
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        alert("Password reset email sent");
+        alert("Passsword reset email sent");
+        setLoading(false);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => alert(error.message))
+      .finally(() => setLoading(false));
   };
 
   const logout = async () => {
