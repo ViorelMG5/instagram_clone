@@ -17,4 +17,7 @@
   .menuIcon {
     @apply w-6 h-6;
   }
+  .hasStory {
+    @apply p-[2px] rounded-full  bg-gradient-to-r bg-gradient-to-r from-[#FFA600] via-[#F5007D] to-pink-500;
+  }
 }

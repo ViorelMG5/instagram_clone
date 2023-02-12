@@ -1,14 +1,23 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "@/styles/Home.module.css";
 import Sidebar from "@/components/Sidebar";
 import Content from "@/components/Content";
 import SecondaryBar from "@/components/SecondaryBar";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useEffect, useState } from "react";
+import Header from "@/components/Header";
 
 export default function Home() {
+  const [windowWidth, setWindowWitdh] = useState<number>(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowWitdh(window.innerWidth);
+      const handleResize = () => setWindowWitdh(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -18,10 +27,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="flex justify-between">
-          <Sidebar />
+        {windowWidth < 768 && <Header />}
+        <div className="md:flex justify-between min-h-screen">
+          {<Sidebar windowWidth={windowWidth} />}
           <Content />
-          <SecondaryBar />
+          {windowWidth > 768 && <SecondaryBar />}
         </div>
       </main>
     </>
