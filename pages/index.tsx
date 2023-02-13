@@ -27,7 +27,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="px-2 md:px-0">
         {windowWidth() < 768 && <Header />}
         <div className="md:flex justify-between min-h-screen">
           {<Sidebar windowWidth={windowWidth()} />}
