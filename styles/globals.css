@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body.dark {
+    @apply bg-[#121212] !text-[#fff];
+  }
+  body.dark button {
+    @apply !text-[#fff];
+  }
+  body.dark .bg-dark,
+  body.dark input {
+    @apply !bg-[#121212];
+  }
+  body.dark .bg-black-child {
+    @apply !bg-[#000];
+  }
+  body.dark .border-dark {
+    @apply !border-[#121212];
+  }
+  body.dark .invert-dark {
+    @apply invert;
+  }
+}
 @layer components {
   .btn-primary {
     @apply bg-[#42A9E4] hover:bg-blue-500 w-full text-white p-2 rounded-md;
@@ -9,6 +30,7 @@
   .hideIcons span {
     @apply hidden;
   }
+
   .menuitem {
     @apply flex items-center gap-4 hover:bg-[#fafafad9] p-2 cursor-pointer w-full justify-center md:justify-start;
   }
@@ -18,7 +40,7 @@
   }
 
   .menuIcon {
-    @apply w-6 h-6;
+    @apply w-6 h-6 cursor-pointer;
   }
   .hasStory {
     @apply p-[2px] rounded-full  bg-gradient-to-r bg-gradient-to-r from-[#FFA600] via-[#F5007D] to-pink-500;
@@ -28,5 +50,8 @@
   }
   .divider {
     @apply bg-gray-400 h-[1px] w-full;
+  }
+  .menuButton {
+    @apply bg-black-child py-2 px-5 flex items-center w-60 justify-between border-b border-[#E5E7EB]  hover:bg-[#e5e7eb];
   }
 }

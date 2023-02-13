@@ -15,7 +15,7 @@ export default function PostCard() {
           <Image
             src={avatar}
             width={40}
-            className="rounded-full border-2 border-white cursor-pointer"
+            className="rounded-full border-2 border-white border-dark cursor-pointer"
             alt="post"
           />
           <span className="font-semibold cursor-pointer">viorelbinciu</span>

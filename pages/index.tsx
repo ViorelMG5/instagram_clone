@@ -6,9 +6,18 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import useAuth from "@/hooks/useAuth";
 import windowWidth from "@/hooks/useWidth";
+import darkMode from "@/atoms/darkModeAtom";
+import { useRecoilState } from "recoil";
 
 export default function Home() {
   // const { user, logout } = useAuth();
+  const [mode, setMode] = useRecoilState(darkMode);
+  console.log(mode);
+  useEffect(() => {
+    mode !== false
+      ? document.querySelector("body")?.classList.add("dark")
+      : document.querySelector("body")?.classList.remove("dark");
+  }, [mode]);
   return (
     <>
       <Head>

@@ -11,7 +11,7 @@ export default function StoryIcon({ hasStory }: Props) {
           src={avatar}
           alt="user avatar"
           width={60}
-          className="rounded-full border-2 border-white"
+          className="rounded-full border-1 border-dark"
         />
       </div>
       <span className="text-[13px]">viorelbinciu</span>
