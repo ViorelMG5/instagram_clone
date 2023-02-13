@@ -27,7 +27,7 @@ export default function Header() {
         </button>
       </div>
 
-      <AiOutlineHeart className="menuIcon" />
+      <AiOutlineHeart className="menuIcon shrink-0" />
     </header>
   );
 }
