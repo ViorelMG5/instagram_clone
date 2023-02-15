@@ -7,6 +7,7 @@ import {
   signOut,
   User,
   sendPasswordResetEmail,
+  updateProfile,
 } from "firebase/auth";
 
 import { useRouter } from "next/router";
@@ -17,6 +18,7 @@ interface IAuth {
   user: User | null;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
+  addUsername: (displayName: string) => Promise<void>;
   signInWithFacebook: () => void;
   resetPassword: (email: string) => void;
   logout: () => Promise<void>;
@@ -28,6 +30,7 @@ const AuthContext = createContext<IAuth>({
   user: null,
   signUp: async () => {},
   signIn: async () => {},
+  addUsername: async () => {},
   resetPassword: async () => {},
   logout: async () => {},
   signInWithFacebook: async () => {},
@@ -77,6 +80,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       })
       .catch((error) => alert(error.message))
       .finally(() => setLoading(false));
+  };
+
+  const addUsername = async (displayName: string) => {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, { displayName });
+    } else {
+      console.error("No user signed in");
+    }
   };
 
   const signIn = async (email: string, password: string) => {
@@ -130,6 +141,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       user,
       resetPassword,
       signUp,
+      addUsername,
       signIn,
       signInWithFacebook,
       error,

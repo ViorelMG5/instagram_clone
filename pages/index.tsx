@@ -10,9 +10,9 @@ import darkMode from "@/atoms/darkModeAtom";
 import { useRecoilState } from "recoil";
 
 export default function Home() {
-  // const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [mode, setMode] = useRecoilState(darkMode);
-  console.log(mode);
+
   useEffect(() => {
     mode !== false
       ? document.querySelector("body")?.classList.add("dark")
