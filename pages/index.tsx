@@ -8,10 +8,8 @@ import useAuth from "@/hooks/useAuth";
 import windowWidth from "@/hooks/useWidth";
 import darkMode from "@/atoms/darkModeAtom";
 import { useRecoilState } from "recoil";
-import SetUser from "./user-information";
 
 export default function Home() {
-  const { logout } = useAuth();
   const [mode, setMode] = useRecoilState(darkMode);
   const { user } = useAuth();
 

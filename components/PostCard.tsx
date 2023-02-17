@@ -1,13 +1,16 @@
 import Image from "next/image";
-import postImg from "../public/post.jpg";
-import avatar from "../public/avatar.jpg";
 import { BsThreeDots } from "react-icons/bs";
 import { AiOutlineHeart, AiOutlineSmile } from "react-icons/ai";
 import { BiBookmark } from "react-icons/bi";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
 import { TbSend } from "react-icons/tb";
-
-export default function PostCard() {
+interface Props {
+  avatar: string;
+  username: string;
+  postImage: string;
+  time: string;
+}
+export default function PostCard({ avatar, username, postImage, time }: Props) {
   return (
     <div className="border-b pb-5">
       <div className="flex items-center justify-between ">
@@ -15,17 +18,20 @@ export default function PostCard() {
           <Image
             src={avatar}
             width={40}
+            height={40}
             className="rounded-full border-2 border-white border-dark cursor-pointer"
             alt="post"
           />
-          <span className="font-semibold cursor-pointer">viorelbinciu</span>
-          <span className="text-gray-500 text-sm">21m ago</span>
+          <span className="font-semibold cursor-pointer">{username} </span>
+          {/* <span className="text-gray-500 text-sm">{time}</span> */}
         </div>
         <BsThreeDots className="cursor-pointer" />
       </div>
       <div className="mt-3 relative pt-[100%]">
         <Image
-          src={postImg}
+          width={1000}
+          height={1000}
+          src={postImage}
           alt="post"
           className="absolute h-full w-full top-0 left-0 object-cover"
         />

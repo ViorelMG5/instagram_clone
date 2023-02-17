@@ -23,10 +23,6 @@ export default function BasicMenu({ logout }: Props) {
     setAnchorEl(null);
   };
 
-  const CustomMenu = styled(Menu)<MenuProps>(({ theme }) => ({
-    boxShadow: "none",
-  }));
-
   return (
     <div className="mt-auto">
       <AiOutlineMenu

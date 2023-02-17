@@ -17,7 +17,6 @@ export default function SetUser() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const router = useRouter();
@@ -28,7 +27,6 @@ export default function SetUser() {
     uploadProfileImg(profilePic[0]);
     router.push("/");
   };
-  console.log(user);
   const validateFileSize = (value: FileList) => {
     const file = value[0];
     if (file && file.size > 1000000) {
@@ -70,6 +68,7 @@ export default function SetUser() {
               </label>
               <input
                 id="profilePic"
+                accept=".png, .svg, .jpg"
                 className="basic-input"
                 type="file"
                 required

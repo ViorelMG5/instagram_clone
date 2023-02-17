@@ -6,26 +6,38 @@ import { MdHomeFilled, MdOutlineExplore } from "react-icons/md";
 import { BsPlusSquare } from "react-icons/bs";
 import { FiSend, FiSearch } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
+import noUser from "../public/no-profile.jpg";
 import useAuth from "@/hooks/useAuth";
 import BasicMenu from "./BasicMenu";
+
+import type { StaticImageData } from "next/image";
+import Link from "next/link";
+import AddPostModal from "./addPostModal";
 
 interface SidebarProps {
   windowWidth: number;
 }
 
 export default function Sidebar({ windowWidth }: SidebarProps) {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
-  const brand =
-    windowWidth > 1280 ? (
-      <Image className="w-[100px] mb-7" src={logo} alt="instagram clone logo" />
-    ) : (
-      <Image
-        className="w-[40px] p-2 mb-7 invert-dark"
-        src={logoBw}
-        alt="instagram clone logo"
-      />
-    );
+  const brand = (
+    <Link href="/">
+      {windowWidth > 1280 ? (
+        <Image
+          className="w-[100px] mb-7"
+          src={logo}
+          alt="instagram clone logo"
+        />
+      ) : (
+        <Image
+          className="w-[40px] p-2 mb-7 invert-dark"
+          src={logoBw}
+          alt="instagram clone logo"
+        />
+      )}
+    </Link>
+  );
 
   return (
     <div className="md:p-5 border-r border-[#909193] md:flex md:flex-col md:h-screen md:sticky md:top-0 md:items-center">
@@ -53,14 +65,18 @@ export default function Sidebar({ windowWidth }: SidebarProps) {
           </li>
         )}
         <li className="menuitem">
-          <BsPlusSquare className="menuIcon" /> <span>Post</span>
+          <AddPostModal />
         </li>
         <li className="menuitem">
-          <Image
-            className="menuIcon rounded-xl"
-            src={avatar}
-            alt="user avatar"
-          />
+          <Link href={`${user?.displayName}`}>
+            <Image
+              className="menuIcon rounded-xl"
+              src={user ? user.photoURL! : noUser}
+              width={100}
+              height={100}
+              alt="user avatar"
+            />
+          </Link>
           <span>Profile</span>
         </li>
       </ul>

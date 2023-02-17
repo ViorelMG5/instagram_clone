@@ -28,12 +28,12 @@ export default function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) =>
+    login ? await signIn(email, password) : await signUp(email, password);
+
   if (user !== null && user.displayName !== null) {
     router.push("/");
   }
-
-  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) =>
-    login ? await signIn(email, password) : await signUp(email, password);
 
   return (
     <>

@@ -10,7 +10,6 @@ export default function Content() {
         <Story />
         <Feed />
       </div>
-      <button onClick={logout}>Logout</button>
     </div>
   );
 }
