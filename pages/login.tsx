@@ -28,7 +28,7 @@ export default function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  if (user !== null) {
+  if (user !== null && user.displayName !== null) {
     router.push("/");
   }
 

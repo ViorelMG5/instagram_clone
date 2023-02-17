@@ -9,13 +9,16 @@ import {
   sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { auth } from "../firebase";
+import { auth, db, storage } from "../firebase";
 
 interface IAuth {
   user: User | null;
+  uploadProfileImg: (file: any) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   addUsername: (displayName: string) => Promise<void>;
@@ -28,6 +31,7 @@ interface IAuth {
 
 const AuthContext = createContext<IAuth>({
   user: null,
+  uploadProfileImg: async () => {},
   signUp: async () => {},
   signIn: async () => {},
   addUsername: async () => {},
@@ -52,8 +56,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(
     () =>
       onAuthStateChanged(auth, (user) => {
+        // if (user?.displayName === null) {
+        //   router.push("/user-information");
+        // }
+
         if (user) {
-          // Logged in
+          user?.displayName === null && router.push("/user-information"); // Logged in
           setUser(user);
           setLoading(false);
         } else {
@@ -75,7 +83,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user);
-        router.push("/");
+        router.push("/user-information");
         setLoading(false);
       })
       .catch((error) => alert(error.message))
@@ -88,6 +96,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       console.error("No user signed in");
     }
+  };
+
+  // Add post
+  const uploadProfileImg = async (file: Blob) => {
+    if (!user) return;
+    setLoading(true);
+    const fileRef = ref(storage, user?.uid + ".webp");
+    const snapshot = await uploadBytes(fileRef, file);
+    const photoURL = await getDownloadURL(fileRef);
+    updateProfile(user, { photoURL });
+    setLoading(false);
   };
 
   const signIn = async (email: string, password: string) => {
@@ -146,6 +165,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       signInWithFacebook,
       error,
       loading,
+      uploadProfileImg,
       logout,
     }),
     [user, loading, error]
