@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import Image from "next/image";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { BsPlusSquare } from "react-icons/bs";
@@ -24,27 +24,25 @@ interface Inputs {
 export default function AddPostModal() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string>();
-
+  const [imagePreview, setImagePreview] = useState<string | null>();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
 
-  console.log(imagePreview);
-
   const onSubmit: SubmitHandler<Inputs> = async ({ description }) => {
     const docRef = await addDoc(collection(db, "posts"), {
+      userId: user?.uid,
       username: user?.displayName,
       postdescription: description,
       profileImg: user?.photoURL,
       timestamp: serverTimestamp(),
     });
-
-    console.log("New doc added with ID", docRef.id);
 
     const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
@@ -56,10 +54,17 @@ export default function AddPostModal() {
       const downloadUrl = await getDownloadURL(imageRef);
       await updateDoc(doc(db, "posts", docRef.id), { image: downloadUrl });
     });
+    handleClose();
+    setImagePreview(null);
+    reset();
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
+    if (e.target.files && e.target.files[0].size > 1000000) {
+      alert("Size must be lower than 1mb");
+      return;
+    }
     if (e.target.files && e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -70,8 +75,9 @@ export default function AddPostModal() {
   };
   return (
     <div>
-      <BsPlusSquare onClick={handleOpen} className="menuIcon rouned-md" />{" "}
-      <span>Post</span>
+      <div className="flex gap-4 " onClick={handleOpen}>
+        <BsPlusSquare className="menuIcon rouned-md" /> <span>Post</span>
+      </div>
       <Modal
         open={open}
         onClose={handleClose}

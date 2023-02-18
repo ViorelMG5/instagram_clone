@@ -1,16 +1,100 @@
 import Image from "next/image";
 import { BsThreeDots } from "react-icons/bs";
-import { AiOutlineHeart, AiOutlineSmile } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiOutlineSmile } from "react-icons/ai";
 import { BiBookmark } from "react-icons/bi";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
 import { TbSend } from "react-icons/tb";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  onSnapshot,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "@/firebase";
+import useAuth from "@/hooks/useAuth";
+import LikesElement from "./LikesElement";
+import CommentsList from "./CommentsList";
 interface Props {
   avatar: string;
   username: string;
   postImage: string;
   time: string;
+  postDescription: string;
+  userId: string;
+  id: string;
 }
-export default function PostCard({ avatar, username, postImage, time }: Props) {
+export default function PostCard({
+  avatar,
+  username,
+  postImage,
+  userId,
+  id,
+  time,
+  postDescription,
+}: Props) {
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<
+    QueryDocumentSnapshot<DocumentData>[]
+  >([]);
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+  const { user } = useAuth();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const commentToSend = comment;
+    setComment("");
+    await addDoc(collection(db, "posts", id, "comments"), {
+      comment: commentToSend,
+      user: user?.displayName,
+      id: id,
+      timestamp: serverTimestamp(),
+    });
+  };
+
+  useEffect(() => {
+    const handleLikes = async () => {
+      if (!user) return;
+      liked
+        ? await setDoc(doc(db, "posts", id, "likes", user.uid), {
+            username: user.displayName,
+            avatarPhoto: user.photoURL,
+          })
+        : await deleteDoc(doc(db, "posts", id, "likes", user.uid));
+    };
+    handleLikes();
+  }, [liked]);
+
+  useEffect(() => {
+    onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
+      setLikes(snapshot.docs)
+    );
+  }, [db, id]);
+
+  useEffect(() => {
+    onSnapshot(
+      query(
+        collection(db, "posts", id, "comments"),
+        orderBy("timestamp", "desc")
+      ),
+      (snapshot) => setComments(snapshot.docs)
+    );
+  }, [db, id]);
+
+  const handleClickChatBubble = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
   return (
     <div className="border-b pb-5">
       <div className="flex items-center justify-between ">
@@ -23,12 +107,12 @@ export default function PostCard({ avatar, username, postImage, time }: Props) {
             alt="post"
           />
           <span className="font-semibold cursor-pointer">{username} </span>
-          {/* <span className="text-gray-500 text-sm">{time}</span> */}
         </div>
         <BsThreeDots className="cursor-pointer" />
       </div>
       <div className="mt-3 relative pt-[100%]">
         <Image
+          onDoubleClick={() => setLiked(!liked)}
           width={1000}
           height={1000}
           src={postImage}
@@ -38,56 +122,49 @@ export default function PostCard({ avatar, username, postImage, time }: Props) {
       </div>
       <div className="mt-3 flex justify-between">
         <div className="flex items-center gap-3">
-          <AiOutlineHeart className="menuIcon" />
-          <ChatBubbleOvalLeftIcon className="menuIcon scale-x-[-1]" />
-          <TbSend className="menuIcon" />
+          {liked ? (
+            <AiFillHeart
+              onClick={() => setLiked(!liked)}
+              className="w-7 h-7 cursor-pointer fill-red-500"
+            />
+          ) : (
+            <AiOutlineHeart
+              onClick={() => setLiked(!liked)}
+              className="w-7 h-7 cursor-pointer "
+            />
+          )}
+          <ChatBubbleOvalLeftIcon
+            onClick={handleClickChatBubble}
+            className="w-7 h-7 scale-x-[-1] cursor-pointer"
+          />
+          <TbSend className="w-7 h-7" />
         </div>
-        <BiBookmark className="menuIcon" />
+        <BiBookmark className="w-7 h-7" />
       </div>
-      <span className="block mt-3 font-semibold text-[13px]">
-        Liked by 230{" "}
-      </span>
+      <LikesElement likes={likes} />
       <div className="space-y-1">
         <p>
-          <span className="font-semibold cursor-pointer mr-2">
-            viorelbinciu
-          </span>
-          _ JUICE WRLD!!! Taken too soon. R.I.P. I wanted to give homage to a
-          truly amazing artist that didn’t get enough time on this earth.
+          <span className="font-semibold cursor-pointer mr-2">{username}</span>
+          {postDescription}{" "}
         </p>
-        <div className="flex justify-between items-center space-x-2">
-          <p>
-            <span className="font-semibold cursor-pointer mr-2">
-              cristidaniel
-            </span>
-            Mare om, mare jale la pomana lui...
-          </p>
-          <AiOutlineHeart className="w-5 h-5 text-gray-400 shrink-0" />
-        </div>
-        <div className="flex justify-between items-center space-x-2">
-          <p>
-            <span className="font-semibold cursor-pointer mr-2">
-              viorelbinciu
-            </span>
-            Stai cuminte ca te potcovesc{" "}
-          </p>
-        </div>
-        <div className="flex justify-between items-center space-x-2">
-          <p>
-            <span className="font-semibold cursor-pointer mr-2">
-              adrianfluca
-            </span>
-            Cateodata stau si ma gandesc, alteori ma gandesc mergand...
-          </p>
-          <AiOutlineHeart className="w-5 h-5 text-gray-400 shrink-0" />
-        </div>
+        <CommentsList comments={comments} userId={userId} id={id} />
       </div>
-      <form className="mt-3 relative">
+      <form className="mt-3 relative" onSubmit={handleSubmit}>
         <input
+          value={comment}
+          ref={inputRef}
+          onChange={(e) => setComment(e.target.value)}
           className="w-full outline-none "
           placeholder="Add a comment ..."
         />
-        <AiOutlineSmile className="absolute right-0 top-0 bottom-0 my-auto text-gray-500 cursor-pointer" />
+        {comment.length !== 0 && (
+          <button
+            type="submit"
+            className="absolute right-0 text-[#0095F6] font-semibold"
+          >
+            Post
+          </button>
+        )}
       </form>
     </div>
   );
