@@ -1,8 +1,6 @@
 import { useRef, useState } from "react";
 import StoryIcon from "./StoryIcon";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/firebase";
 import useAuth from "@/hooks/useAuth";
 
 export default function Story() {
@@ -10,17 +8,6 @@ export default function Story() {
   const [isMoved, setIsMoved] = useState(false);
   const rowRef = useRef<HTMLUListElement>(null);
   const { user } = useAuth();
-
-  // const docRef = await addDoc(collection(db, 'stories'), {
-  //   username: user?.displayName,
-
-  // })
-
-  // const handleAddStory = async () => {
-  //   await addDoc(collection(db, 'stories', id,'story' ), {
-
-  //   })
-  // }
 
   const handleClick = (direction: string) => {
     setIsMoved(true);

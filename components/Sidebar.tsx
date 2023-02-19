@@ -1,16 +1,12 @@
 import Image from "next/image";
 import logo from "../public/Instagram_logo.png";
 import logoBw from "../public/logobw.png";
-import avatar from "../public/avatar.jpg";
 import { MdHomeFilled, MdOutlineExplore } from "react-icons/md";
-import { BsPlusSquare } from "react-icons/bs";
 import { FiSend, FiSearch } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
 import noUser from "../public/no-profile.jpg";
 import useAuth from "@/hooks/useAuth";
 import BasicMenu from "./BasicMenu";
-
-import type { StaticImageData } from "next/image";
 import Link from "next/link";
 import AddPostModal from "./addPostModal";
 

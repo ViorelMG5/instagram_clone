@@ -11,7 +11,7 @@ export default function SecondaryBar() {
     <div className="grow-[1] mt-12 md:mt-10">
       <div className="flex items-center gap-4">
         <Image
-          className="rounded-[100%]"
+          className="rounded-[100%] w-[60px] h-[60px] object-cover "
           src={user?.photoURL || noUser}
           width={60}
           height={60}

@@ -111,7 +111,7 @@ export default function PostCard({
             src={avatar}
             width={40}
             height={40}
-            className="rounded-full border-2 border-white border-dark cursor-pointer"
+            className="rounded-full border-2 w-[40px] h-[40px] object-cover border-white border-dark cursor-pointer"
             alt="post"
           />
           <span className="font-semibold cursor-pointer">{username} </span>

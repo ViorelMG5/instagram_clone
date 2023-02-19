@@ -1,15 +1,5 @@
 import PostCard from "./PostCard";
-import {
-  collection,
-  DocumentData,
-  onSnapshot,
-  orderBy,
-  query,
-  QueryDocumentSnapshot,
-} from "firebase/firestore";
-import { db } from "@/firebase";
-import { useEffect, useState } from "react";
-import usePost, { PostProvider } from "@/hooks/usePost";
+import usePost from "@/hooks/usePost";
 
 export default function Feed() {
   const { posts } = usePost();

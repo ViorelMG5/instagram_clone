@@ -9,24 +9,14 @@ interface Props {
 }
 export default function UserPagePanel({ postLength }: Props) {
   const { user } = useAuth();
-  const bio = (
-    <div>
-      <p>
-        No one cares about your story until you win, so win
-        <br />
-        1.81
-        <br />
-        Software developer Ui/ux designer Photographer
-      </p>
-    </div>
-  );
+  const bio = <div> Bio is coming soon...</div>;
 
   return (
     <div>
       <div className="flex">
         <div className="grow mr-7 ">
           <Image
-            className=" rounded-[100%] max-w-[150px] mx-auto"
+            className=" rounded-[100%] max-w-[120px] min-w-[70px] max-h-[120px] w-full h-fullobject-cover mx-auto"
             src={user ? user.photoURL! : noUser}
             width={150}
             height={150}
