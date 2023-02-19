@@ -80,7 +80,7 @@ export default function Sidebar({ windowWidth }: SidebarProps) {
           <span>Profile</span>
         </li>
       </ul>
-      <BasicMenu logout={logout} />
+      {windowWidth > 768 && <BasicMenu logout={logout} />}
     </div>
   );
 }
