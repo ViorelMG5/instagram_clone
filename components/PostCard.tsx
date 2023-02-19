@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { BsThreeDots } from "react-icons/bs";
-import { AiFillHeart, AiOutlineHeart, AiOutlineSmile } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiBookmark } from "react-icons/bi";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
 import { TbSend } from "react-icons/tb";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import {
   addDoc,
   collection,
@@ -131,7 +131,7 @@ export default function PostCard({
           height={1000}
           src={postImage}
           alt="post"
-          className="absolute h-full w-full top-0 left-0 object-cover"
+          className="absolute h-full w-full top-0 left-0 object-contain"
         />
       </div>
       <div className="mt-3 flex justify-between">

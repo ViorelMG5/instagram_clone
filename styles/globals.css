@@ -22,6 +22,10 @@
   body.dark .invert-dark {
     @apply invert;
   }
+
+  body.dark .edit-button {
+    @apply bg-[#312e2e];
+  }
 }
 @layer components {
   .btn-primary {
@@ -57,6 +61,9 @@
   }
   .menuButton {
     @apply bg-black-child py-2 px-5 flex items-center w-60 justify-between border-b border-[#E5E7EB]  hover:bg-[#e5e7eb];
+  }
+  .edit-button {
+    @apply bg-gray-100 hover:bg-gray-200 text-[14px]  font-medium px-4 py-1 rounded-sm;
   }
 }
 

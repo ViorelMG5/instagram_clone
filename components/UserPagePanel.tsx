@@ -27,9 +27,7 @@ export default function UserPagePanel({ postLength }: Props) {
         <div className="grow-[2] space-y-4">
           <div className="flex gap-6 items-center">
             <h1 className="text-lg font-normal ">{user?.displayName}</h1>
-            <button className="bg-gray-100 hover:bg-gray-200 text-[14px]  font-medium px-4 py-1 rounded-sm">
-              Edit profile
-            </button>
+            <button className="edit-button">Edit profile</button>
           </div>
 
           <div className="flex gap-4 flex-wrap md:gap-10 items-center ">
