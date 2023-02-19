@@ -103,13 +103,23 @@ export default function Login() {
                     OR
                     <span className="divider"></span>
                   </div>
-                  <button
-                    onClick={signInWithFacebook}
-                    className="flex items-center gap-1"
-                  >
-                    <AiFillFacebook className="menuIcon text-blue-900" />
-                    Connect with Facebook
-                  </button>
+                  {windowWidth() > 767 ? (
+                    <button
+                      onClick={signInWithFacebook}
+                      className="flex items-center gap-1"
+                    >
+                      <AiFillFacebook className="menuIcon text-blue-900" />
+                      Connect with Facebook
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => alert("disabled on mobile resolution")}
+                      className="flex items-center gap-1"
+                    >
+                      <AiFillFacebook className="menuIcon text-blue-900" />
+                      Connect with Facebook
+                    </button>
+                  )}
                   <Link
                     href="/reset-password"
                     className="text-[13px] mt-5 text-gray-500"
