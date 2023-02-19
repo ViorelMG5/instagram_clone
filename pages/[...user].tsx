@@ -1,9 +1,12 @@
 import darkMode from "@/atoms/darkModeAtom";
+import PostsGrid from "@/components/PostsGrid";
 import Sidebar from "@/components/Sidebar";
 import useAuth from "@/hooks/useAuth";
+import usePost from "@/hooks/usePost";
 import windowWidth from "@/hooks/useWidth";
 import Image from "next/image";
 import { useEffect } from "react";
+import { BsGrid3X3 } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import { useRecoilState } from "recoil";
 import noUser from "../public/no-profile.jpg";
@@ -11,19 +14,17 @@ import noUser from "../public/no-profile.jpg";
 export default function user() {
   const { user } = useAuth();
   const [mode, setMode] = useRecoilState(darkMode);
-
+  const { posts } = usePost();
   useEffect(() => {
     mode !== false
       ? document.querySelector("body")?.classList.add("dark")
       : document.querySelector("body")?.classList.remove("dark");
   }, [mode]);
-
-  console.log(user);
-
+  console.log(posts);
   return (
     <div className="flex">
       <div>{<Sidebar windowWidth={windowWidth()} />}</div>
-      <div className="px-2 md:px-10 pt-10 max-w-[935px] w-full mx-auto space-y-10">
+      <div className="px-2 md:px-10 pt-10 max-w-[935px] w-full mx-auto space-y-20">
         <div className="flex">
           <div className="grow mr-7 ">
             <Image
@@ -68,8 +69,17 @@ export default function user() {
             </div>
           </div>
         </div>
-        <div>STORIES</div>
-        <div>POSTS</div>
+        <div>
+          <div className="flex gap-2 mb-2 items-center">
+            <BsGrid3X3 className="h-4 w-4" />
+            <h2 className="font-medium text-lg">Posts</h2>
+          </div>
+          <div className="grid grid-cols-3 gap-2 md:gap-8">
+            {posts.map((post) => (
+              <PostsGrid key={post.id} image={post.data().image} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

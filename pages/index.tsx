@@ -11,13 +11,12 @@ import { useRecoilState } from "recoil";
 
 export default function Home() {
   const [mode, setMode] = useRecoilState(darkMode);
-  const { user } = useAuth();
-
   useEffect(() => {
     mode !== false
       ? document.querySelector("body")?.classList.add("dark")
       : document.querySelector("body")?.classList.remove("dark");
   }, [mode]);
+  const { user } = useAuth();
 
   return (
     <>

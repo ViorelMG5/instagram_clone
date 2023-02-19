@@ -46,6 +46,7 @@ export default function PostCard({
   >([]);
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+  const [showHeart, setShowHeart] = useState(false);
   const { user } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -95,10 +96,17 @@ export default function PostCard({
       inputRef.current.focus();
     }
   };
+  const handleDoubleClick = () => {
+    setLiked(!liked);
+    setShowHeart(true);
+    setTimeout(() => {
+      setShowHeart(false);
+    }, 1000);
+  };
   return (
     <div className="border-b pb-5">
       <div className="flex items-center justify-between ">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ">
           <Image
             src={avatar}
             width={40}
@@ -111,8 +119,14 @@ export default function PostCard({
         <BsThreeDots className="cursor-pointer" />
       </div>
       <div className="mt-3 relative pt-[100%]">
+        <AiFillHeart
+          className={`absolute opacity-0 transition-all	duration-700 z-10 top-0 left-0 right-0 bottom-0 m-auto w-10  h-10 fill-white ${
+            showHeart && "opacity-100 w-20 h-20"
+          } ${liked && "!fill-red-500"}`}
+        />
+
         <Image
-          onDoubleClick={() => setLiked(!liked)}
+          onDoubleClick={handleDoubleClick}
           width={1000}
           height={1000}
           src={postImage}

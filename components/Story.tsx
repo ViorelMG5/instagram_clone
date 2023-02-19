@@ -1,11 +1,26 @@
 import { useRef, useState } from "react";
 import StoryIcon from "./StoryIcon";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/firebase";
+import useAuth from "@/hooks/useAuth";
 
 export default function Story() {
-  const [story, setStory] = useState<boolean | null>(true);
+  const [seen, setSeen] = useState<boolean | null>(true);
   const [isMoved, setIsMoved] = useState(false);
   const rowRef = useRef<HTMLUListElement>(null);
+  const { user } = useAuth();
+
+  // const docRef = await addDoc(collection(db, 'stories'), {
+  //   username: user?.displayName,
+
+  // })
+
+  // const handleAddStory = async () => {
+  //   await addDoc(collection(db, 'stories', id,'story' ), {
+
+  //   })
+  // }
 
   const handleClick = (direction: string) => {
     setIsMoved(true);
@@ -30,17 +45,10 @@ export default function Story() {
       />
       <ul
         ref={rowRef}
-        className=" flex gap-3 overflow-x-scroll   scrollbar-hide"
+        className=" flex gap-3 overflow-x-scroll  scrollbar-hide "
       >
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
-        <StoryIcon hasStory={story} />
+        <StoryIcon storySeen={seen} />
+        <p className="mt-4 uppercase text-gray-400 font-medium">Coming soon</p>
       </ul>
       <MdKeyboardArrowRight
         onClick={() => handleClick("right")}

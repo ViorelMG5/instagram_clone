@@ -1,12 +1,12 @@
 import Image from "next/image";
 import avatar from "../public/avatar.jpg";
 interface Props {
-  hasStory: boolean | null;
+  storySeen: boolean | null;
 }
-export default function StoryIcon({ hasStory }: Props) {
+export default function StoryIcon({ storySeen }: Props) {
   return (
     <li className="flex flex-col justify-center items-center cursor-pointer">
-      <div className={`${hasStory && "hasStory"}`}>
+      <div className={`${storySeen && "hasStory"}`}>
         <Image
           src={avatar}
           alt="user avatar"
