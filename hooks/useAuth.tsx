@@ -18,7 +18,6 @@ import { auth, db, storage } from "../firebase";
 
 interface IAuth {
   user: User | null;
-  uploadProfileImg: (file: any) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   addUsername: (displayName: string) => Promise<void>;
@@ -31,7 +30,6 @@ interface IAuth {
 
 const AuthContext = createContext<IAuth>({
   user: null,
-  uploadProfileImg: async () => {},
   signUp: async () => {},
   signIn: async () => {},
   addUsername: async () => {},
@@ -98,17 +96,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // Add post
-  const uploadProfileImg = async (file: Blob) => {
-    if (!user) return;
-    setLoading(true);
-    const fileRef = ref(storage, user?.uid + ".webp");
-    const snapshot = await uploadBytes(fileRef, file);
-    const photoURL = await getDownloadURL(fileRef);
-    updateProfile(user, { photoURL });
-    setLoading(false);
-  };
-
   const signIn = async (email: string, password: string) => {
     setLoading(true);
     await signInWithEmailAndPassword(auth, email, password)
@@ -165,7 +152,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       signInWithFacebook,
       error,
       loading,
-      uploadProfileImg,
       logout,
     }),
     [user, loading, error]

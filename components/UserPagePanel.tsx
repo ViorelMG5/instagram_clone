@@ -6,8 +6,14 @@ import windowWidth from "@/hooks/useWidth";
 
 interface Props {
   postLength: number;
+  followers: number;
+  following: number;
 }
-export default function UserPagePanel({ postLength }: Props) {
+export default function UserPagePanel({
+  postLength,
+  followers,
+  following,
+}: Props) {
   const { user } = useAuth();
   const bio = <div> Bio is coming soon...</div>;
 
@@ -36,11 +42,11 @@ export default function UserPagePanel({ postLength }: Props) {
               <span>posts</span>
             </div>
             <div>
-              <span className="font-medium mr-2">1339</span>
+              <span className="font-medium mr-2">{followers}</span>
               <span>followers</span>
             </div>
             <div>
-              <span className="font-medium mr-2">842</span>
+              <span className="font-medium mr-2">{following}</span>
               <span>following</span>
             </div>
           </div>

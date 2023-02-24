@@ -1,12 +1,9 @@
 import { Popover, Slider, SliderProps, styled } from "@mui/material";
-import Menu, { MenuProps } from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { MouseEventHandler, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BsMoon } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
-import darkMode from "@/atoms/darkModeAtom";
-import { useRecoilState } from "recoil";
+import useColorMode from "@/hooks/useColorMode";
 
 interface Props {
   logout: MouseEventHandler<HTMLButtonElement>;
@@ -14,8 +11,7 @@ interface Props {
 export default function BasicMenu({ logout }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | SVGAElement>(null);
   const open = Boolean(anchorEl);
-  const [mode, setMode] = useRecoilState(darkMode);
-
+  const [colorMode, setColorMode] = useColorMode();
   const handleClick = (event: React.MouseEvent<SVGAElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -46,7 +42,10 @@ export default function BasicMenu({ logout }: Props) {
         <button className="menuButton">
           Settings <FiSettings />
         </button>
-        <button onClick={() => setMode(!mode)} className="menuButton">
+        <button
+          onClick={() => setColorMode(colorMode === "dark" ? "light" : "dark")}
+          className="menuButton"
+        >
           Apparence <BsMoon />
         </button>
 

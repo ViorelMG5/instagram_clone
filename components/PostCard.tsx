@@ -22,6 +22,7 @@ import { db } from "@/firebase";
 import useAuth from "@/hooks/useAuth";
 import LikesElement from "./LikesElement";
 import CommentsList from "./CommentsList";
+import Link from "next/link";
 interface Props {
   avatar: string;
   username: string;
@@ -111,7 +112,7 @@ export default function PostCard({
             src={avatar}
             width={40}
             height={40}
-            className="rounded-full border-2 w-[40px] h-[40px] object-cover border-white border-dark cursor-pointer"
+            className="rounded-full border-2 w-[40px] h-[40px] object-cover border-white dark:border-[#121212] cursor-pointer"
             alt="post"
           />
           <span className="font-semibold cursor-pointer">{username} </span>

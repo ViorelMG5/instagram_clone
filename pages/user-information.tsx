@@ -1,6 +1,8 @@
-import { auth } from "@/firebase";
+import { auth, db, storage } from "@/firebase";
 import useAuth from "@/hooks/useAuth";
-import { getStorage, ref } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import Head from "next/head";
 import Image from "next/image";
 import { Router, useRouter } from "next/router";
@@ -20,13 +22,30 @@ export default function SetUser() {
     formState: { errors },
   } = useForm<Inputs>();
   const router = useRouter();
-  const { user, addUsername, uploadProfileImg } = useAuth();
+  const { user, addUsername } = useAuth();
   const [fileSizeError, setFileSizeError] = useState<string | undefined>();
-  const onSubmit: SubmitHandler<Inputs> = ({ displayName, profilePic }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({
+    displayName,
+    profilePic,
+  }) => {
+    const fileRef = ref(storage, user?.uid + ".webp");
+    const snapshot = await uploadBytes(fileRef, profilePic[0]);
+    const photoURL = await getDownloadURL(fileRef);
+
+    updateProfile(user!, { photoURL });
+
+    await addDoc(collection(db, "users"), {
+      uid: user?.uid,
+      email: user?.email,
+      followers: 0,
+      following: 0,
+      profilePic: photoURL,
+      username: displayName,
+    });
     addUsername(displayName);
-    uploadProfileImg(profilePic[0]);
     router.push("/");
   };
+
   const validateFileSize = (value: FileList) => {
     const file = value[0];
     if (file && file.size > 1000000) {

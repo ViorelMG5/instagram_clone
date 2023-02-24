@@ -6,17 +6,14 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import useAuth from "@/hooks/useAuth";
 import windowWidth from "@/hooks/useWidth";
-import darkMode from "@/atoms/darkModeAtom";
 import { useRecoilState } from "recoil";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase";
 
 export default function Home() {
-  const [mode, setMode] = useRecoilState(darkMode);
-  useEffect(() => {
-    mode !== false
-      ? document.querySelector("body")?.classList.add("dark")
-      : document.querySelector("body")?.classList.remove("dark");
-  }, [mode]);
   const { user } = useAuth();
+
+  if (!user) return;
 
   return (
     <>

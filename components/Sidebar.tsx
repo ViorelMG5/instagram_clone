@@ -27,7 +27,7 @@ export default function Sidebar({ windowWidth }: SidebarProps) {
         />
       ) : (
         <Image
-          className="w-[40px] p-2 mb-7 invert-dark"
+          className="w-[40px] p-2 mb-7 dark:invert"
           src={logoBw}
           alt="instagram clone logo"
         />
@@ -39,13 +39,13 @@ export default function Sidebar({ windowWidth }: SidebarProps) {
     <div className="md:p-5 border-r border-[#909193] md:flex md:flex-col md:h-screen md:sticky md:top-0 md:items-center">
       {windowWidth > 768 && brand}
       <ul
-        className={`md:space-y-4  md:static z-20 md:block bg-white  bg-dark    border-t md:border-t-0 py-1 md:py-0 left-0 fixed bottom-0 flex items-center justify-evenly w-full ${
+        className={`md:space-y-4  md:static z-20 md:block bg-white  dark:bg-[#121212]    border-t md:border-t-0 py-1 md:py-0 left-0 fixed bottom-0 flex items-center justify-evenly w-full ${
           windowWidth < 1280 && "hideIcons"
         }`}
       >
-        <li className="menuitem">
+        <Link href="/" className="menuitem">
           <MdHomeFilled className="menuIcon" /> <span>Home</span>
-        </li>
+        </Link>
         <li className="menuitem">
           <FiSearch className="menuIcon" /> <span>Search</span>
         </li>
@@ -67,7 +67,7 @@ export default function Sidebar({ windowWidth }: SidebarProps) {
           <Link href={`${user?.displayName}`}>
             <Image
               className="menuIcon rounded-xl"
-              src={user ? user.photoURL! : noUser}
+              src={user?.photoURL || noUser}
               width={100}
               height={100}
               alt="user avatar"

@@ -43,7 +43,6 @@ export default function AddPostModal() {
       profileImg: user?.photoURL,
       timestamp: serverTimestamp(),
     });
-
     const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
     await uploadString(
@@ -85,7 +84,9 @@ export default function AddPostModal() {
         aria-describedby="modal-modal-description"
       >
         <div className="bg-white rounded-xl h-fit max-w-[90vw] md:max-w-[626px] absolute top-0 bottom-0 left-0 right-0 m-auto">
-          <h2 className="text-center font-medium py-3 border-b">New post</h2>
+          <h2 className="text-center font-medium py-3 border-b dark:text-black">
+            New post
+          </h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="p-3 md:p-8 min-h-[40vh] "
@@ -123,7 +124,7 @@ export default function AddPostModal() {
                 onChange={handleImageChange}
               />
             </label>
-            <label className="mt-4 block">
+            <label className="mt-4 block dark:text-black">
               Description
               <textarea
                 className="border rouned-md w-full min-h-[10vh] p-2 focus:outline-none"
