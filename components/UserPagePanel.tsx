@@ -31,7 +31,7 @@ export default function UserPagePanel({
         </div>
         {/* Right side */}
         <div className="grow-[2] space-y-4">
-          <div className="flex gap-6 items-center">
+          <div className="flex gap-2 md:gap-6 items-center">
             <h1 className="text-lg font-normal ">{user?.displayName}</h1>
             <button className="edit-button">Edit profile</button>
           </div>
