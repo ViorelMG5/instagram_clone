@@ -38,15 +38,15 @@ export default function UserPagePanel({
 
           <div className="flex gap-4 flex-wrap md:gap-10 items-center ">
             <div>
-              <span className="font-medium mr-2">{postLength}</span>
+              <span className="font-medium mr-1">{postLength}</span>
               <span>posts</span>
             </div>
             <div>
-              <span className="font-medium mr-2">{followers}</span>
+              <span className="font-medium mr-1">{followers}</span>
               <span>followers</span>
             </div>
             <div>
-              <span className="font-medium mr-2">{following}</span>
+              <span className="font-medium mr-1">{following}</span>
               <span>following</span>
             </div>
           </div>
