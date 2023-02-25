@@ -20,9 +20,9 @@ export default function UserPagePanel({
   return (
     <div>
       <div className="flex">
-        <div className="grow mr-7 ">
+        <div className="grow mr-4 md:mr-7 ">
           <Image
-            className=" rounded-[100%] max-w-[120px] min-w-[70px] max-h-[120px] w-full h-fullobject-cover mx-auto"
+            className=" rounded-[100%] max-w-[60px] md:max-w-[120px]   max-h-[60px]  md:max-h-[120px] w-full h-full object-cover mx-auto"
             src={user ? user.photoURL! : noUser}
             width={150}
             height={150}
