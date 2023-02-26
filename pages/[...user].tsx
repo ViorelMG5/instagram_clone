@@ -4,7 +4,7 @@ import UserPagePanel from "@/components/UserPagePanel";
 import { db } from "@/firebase";
 import useAuth from "@/hooks/useAuth";
 import usePost from "@/hooks/usePost";
-import windowWidth from "@/hooks/useWidth";
+import useWidth from "@/hooks/useWidth";
 import {
   collection,
   DocumentData,
@@ -19,6 +19,7 @@ import { BsGrid3X3 } from "react-icons/bs";
 export default function user() {
   const { posts } = usePost();
   const { user } = useAuth();
+  const { windowWidth } = useWidth();
   const [currentUser, setCurrentUser] =
     useState<QueryDocumentSnapshot<DocumentData>[]>();
   const usersRef = collection(db, "users");
@@ -41,7 +42,7 @@ export default function user() {
 
   return (
     <div className="flex">
-      <div>{<Sidebar windowWidth={windowWidth()} />}</div>
+      <div>{<Sidebar windowWidth={windowWidth} />}</div>
       <div className="px-2 md:px-10 pt-10 max-w-[935px] w-full mx-auto space-y-20">
         <UserPagePanel
           postLength={filteredPosts.length}

@@ -5,13 +5,13 @@ import logo from "../public/Instagram_logo.png";
 import googleIcon from "../public/images/google.png";
 import microsoftIcon from "../public/images/microsoft.png";
 import Link from "next/link";
-import windowWidth from "@/hooks/useWidth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useAuth from "@/hooks/useAuth";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useState } from "react";
+import useWidth from "@/hooks/useWidth";
 
 type Inputs = {
   email: string;
@@ -21,6 +21,7 @@ type Inputs = {
 export default function Login() {
   const { signIn, signInWithFacebook, signUp, user, loading } = useAuth();
   const [login, setLogin] = useState(false);
+  const { windowWidth } = useWidth();
   const router = useRouter();
   const {
     register,
@@ -44,7 +45,7 @@ export default function Login() {
       <main>
         <div className="bg-gray-100 min-h-screen pt-[10vh] pb-10">
           <div className="flex items-center justify-center">
-            {windowWidth() > 991 && (
+            {windowWidth > 991 && (
               <Image
                 className="object-contain min-h-[60vh] min-w-[30vw]"
                 src={phoneFrame}
@@ -103,7 +104,7 @@ export default function Login() {
                     OR
                     <span className="divider"></span>
                   </div>
-                  {windowWidth() > 767 ? (
+                  {windowWidth > 767 ? (
                     <button
                       onClick={signInWithFacebook}
                       className="flex items-center gap-1"
