@@ -51,21 +51,24 @@ export default function PostCard({
   const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
   const [showHeart, setShowHeart] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { addComment, togglePostLike, removePost } = usePostInteractions();
+  const { addComment, addPostLike, removePostLike, removePost } =
+    usePostInteractions();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setComment("");
     addComment(comment, id);
   };
+  console.log(liked);
 
-  useEffect(() => {
-    const handleLikes = () => {
-      togglePostLike(liked, id);
-    };
-    handleLikes();
-  }, [liked]);
-
+  const handleAddPostLike = () => {
+    addPostLike(id);
+    setLiked(true);
+  };
+  const handleRemovePostLike = () => {
+    removePostLike(id);
+    setLiked(false);
+  };
   useEffect(() => {
     onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
       setLikes(snapshot.docs)
@@ -95,13 +98,16 @@ export default function PostCard({
     }, 1000);
   };
 
+  useEffect(() => {
+    likes.filter((like) =>
+      like.data().username === user?.displayName
+        ? setLiked(true)
+        : setLiked(false)
+    );
+  }, [likes]);
+
   return (
-    <div
-      className="border-b pb-5"
-      onClick={() => {
-        console.log(id);
-      }}
-    >
+    <div className="border-b pb-5">
       <div className="flex items-center justify-between ">
         <div className="flex items-center gap-2 ">
           <Image
@@ -140,12 +146,12 @@ export default function PostCard({
         <div className="flex items-center gap-3">
           {liked ? (
             <AiFillHeart
-              onClick={() => setLiked(!liked)}
+              onClick={handleRemovePostLike}
               className="w-7 h-7 cursor-pointer fill-red-500"
             />
           ) : (
             <AiOutlineHeart
-              onClick={() => setLiked(!liked)}
+              onClick={handleAddPostLike}
               className="w-7 h-7 cursor-pointer "
             />
           )}

@@ -31,7 +31,6 @@ interface Props {
 
 export default function CommentsList({ comments, id }: Props) {
   const { user } = useAuth();
-  console.log(user);
   const [commentLike, setCommentLike] = useState(false);
   const [commentLikes, setCommentLikes] = useState<
     QueryDocumentSnapshot<DocumentData>[]

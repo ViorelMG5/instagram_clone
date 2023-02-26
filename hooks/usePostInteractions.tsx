@@ -27,7 +27,8 @@ interface PostInteractionsContextProps {
   removePost: (postId: string) => Promise<void>;
   addComment: (comment: string, id: string) => Promise<void>;
   removeComment: (commentId: string, postId: string) => Promise<void>;
-  togglePostLike: (liked: boolean, id: string) => Promise<void>;
+  addPostLike: (id: string) => Promise<void>;
+  removePostLike: (id: string) => Promise<void>;
   toggleCommentLike: (commentLike: boolean, id: string) => Promise<void>;
 }
 
@@ -38,7 +39,8 @@ export const CommentsContext = createContext<PostInteractionsContextProps>({
   removePost: async () => {},
   addComment: async () => {},
   removeComment: async () => {},
-  togglePostLike: async () => {},
+  addPostLike: async () => {},
+  removePostLike: async () => {},
   toggleCommentLike: async () => {},
 });
 
@@ -64,14 +66,17 @@ export const PostInteractionsProvider = ({
     await deleteDoc(doc(db, "posts", postId, "comments", commentId));
   };
 
-  const togglePostLike = async (liked: boolean, id: string) => {
+  const addPostLike = async (id: string) => {
     if (!user) return;
-    liked
-      ? await setDoc(doc(db, "posts", id, "likes", user.uid), {
-          username: user.displayName,
-          avatarPhoto: user.photoURL,
-        })
-      : await deleteDoc(doc(db, "posts", id, "likes", user.uid));
+    await setDoc(doc(db, "posts", id, "likes", user.uid), {
+      username: user.displayName,
+      avatarPhoto: user.photoURL,
+    });
+  };
+
+  const removePostLike = async (id: string) => {
+    if (!user) return;
+    await deleteDoc(doc(db, "posts", id, "likes", user.uid));
   };
 
   const toggleCommentLike = async (commentLike: boolean, id: string) => {
@@ -89,7 +94,8 @@ export const PostInteractionsProvider = ({
       removePost,
       addComment,
       removeComment,
-      togglePostLike,
+      addPostLike,
+      removePostLike,
       toggleCommentLike,
     }),
     []

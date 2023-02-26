@@ -55,7 +55,7 @@ export default function LikesElement({ likes }: Props) {
               <li key={like.id}>
                 <Link
                   href={like.data().username}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 p-4"
                 >
                   <Image
                     src={like.data().avatarPhoto || noUser}

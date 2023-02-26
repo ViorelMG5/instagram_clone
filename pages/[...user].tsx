@@ -38,8 +38,6 @@ export default function user() {
     return () => setUser();
   }, [user]);
 
-  console.log(currentUser && currentUser[0].data());
-
   return (
     <div className="flex">
       <div>{<Sidebar windowWidth={windowWidth} />}</div>
