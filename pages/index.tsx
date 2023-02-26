@@ -2,16 +2,13 @@ import Head from "next/head";
 import Sidebar from "@/components/Sidebar";
 import Content from "@/components/Content";
 import SecondaryBar from "@/components/SecondaryBar";
-import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import useAuth from "@/hooks/useAuth";
-import windowWidth from "@/hooks/useWidth";
-import { useRecoilState } from "recoil";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/firebase";
+import useWidth from "@/hooks/useWidth";
 
 export default function Home() {
   const { user } = useAuth();
+  const { windowWidth } = useWidth();
 
   if (!user) return;
 
@@ -25,11 +22,11 @@ export default function Home() {
       </Head>
 
       <main>
-        {windowWidth() < 768 && <Header />}
+        {windowWidth < 768 && <Header />}
         <div className="md:flex justify-between min-h-screen">
-          {<Sidebar windowWidth={windowWidth()} />}
+          {<Sidebar windowWidth={windowWidth} />}
           <Content />
-          {windowWidth() > 991 && <SecondaryBar />}
+          {windowWidth > 991 && <SecondaryBar />}
         </div>
       </main>
     </>

@@ -1,8 +1,8 @@
 import useAuth from "@/hooks/useAuth";
+import useWidth from "@/hooks/useWidth";
 import Image from "next/image";
-import { FiSettings } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import noUser from "../public/no-profile.jpg";
-import windowWidth from "@/hooks/useWidth";
 
 interface Props {
   postLength: number;
@@ -14,8 +14,8 @@ export default function UserPagePanel({
   followers,
   following,
 }: Props) {
-  const { user } = useAuth();
-  const bio = <div> Bio is coming soon...</div>;
+  const { user, logout } = useAuth();
+  const { windowWidth } = useWidth();
 
   return (
     <div>
@@ -34,6 +34,7 @@ export default function UserPagePanel({
           <div className="flex gap-2 md:gap-6 items-center">
             <h1 className="text-lg font-normal ">{user?.displayName}</h1>
             <button className="edit-button">Edit profile</button>
+            <FiLogOut onClick={logout} className="w-5 h-5 cursor-pointer" />
           </div>
 
           <div className="flex gap-4 flex-wrap md:gap-10 items-center ">
@@ -50,10 +51,12 @@ export default function UserPagePanel({
               <span>following</span>
             </div>
           </div>
-          {windowWidth() > 767 && bio}
+          {windowWidth > 767 && <p>Bio is coming soon...</p>}
         </div>
       </div>
-      {windowWidth() < 767 && <div className="pl-4 mt-4">{bio}</div>}
+      {windowWidth < 767 && (
+        <div className="pl-4 mt-4">Bio is coming soon...</div>
+      )}
     </div>
   );
 }
