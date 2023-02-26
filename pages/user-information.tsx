@@ -68,8 +68,8 @@ export default function SetUser() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className=" flex flex-col items-center max-w-xl mx-auto pt-[10vh]">
+      <form onSubmit={handleSubmit(onSubmit)} className="px-[5vw] md:px-0">
+        <div className=" flex flex-col items-center max-w-xl mx-auto pt-[10vh] ">
           <Image src={logo} alt="instagram logo" width={200} className="my-5" />
 
           <div className="space-y-3 flex flex-col  w-full">
