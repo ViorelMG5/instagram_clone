@@ -26,6 +26,8 @@ import useAuth from "./useAuth";
 interface PostInteractionsContextProps {
   addComment: (comment: string, id: string) => Promise<void>;
   removeComment: (commentId: string, postId: string) => Promise<void>;
+  togglePostLike: (liked: boolean, id: string) => Promise<void>;
+  toggleCommentLike: (commentLike: boolean, id: string) => Promise<void>;
 }
 
 interface PostInteractionProviderProps {
@@ -34,6 +36,8 @@ interface PostInteractionProviderProps {
 export const CommentsContext = createContext<PostInteractionsContextProps>({
   addComment: async () => {},
   removeComment: async () => {},
+  togglePostLike: async () => {},
+  toggleCommentLike: async () => {},
 });
 
 export const PostInteractionsProvider = ({
@@ -55,7 +59,30 @@ export const PostInteractionsProvider = ({
     await deleteDoc(doc(db, "posts", postId, "comments", commentId));
   };
 
-  const memoedValues = useMemo(() => ({ addComment, removeComment }), []);
+  const togglePostLike = async (liked: boolean, id: string) => {
+    if (!user) return;
+    liked
+      ? await setDoc(doc(db, "posts", id, "likes", user.uid), {
+          username: user.displayName,
+          avatarPhoto: user.photoURL,
+        })
+      : await deleteDoc(doc(db, "posts", id, "likes", user.uid));
+  };
+
+  const toggleCommentLike = async (commentLike: boolean, id: string) => {
+    if (!user) return;
+    commentLike
+      ? await setDoc(doc(db, "posts", id, "commentLikes", user.uid), {
+          username: user.displayName,
+          avatarPhoto: user.photoURL,
+        })
+      : await deleteDoc(doc(db, "posts", id, "commentLikes", user.uid));
+  };
+
+  const memoedValues = useMemo(
+    () => ({ addComment, removeComment, togglePostLike, toggleCommentLike }),
+    []
+  );
 
   return (
     <CommentsContext.Provider value={memoedValues}>

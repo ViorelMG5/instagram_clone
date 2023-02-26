@@ -51,7 +51,7 @@ export default function PostCard({
   const [showHeart, setShowHeart] = useState(false);
   const { user } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
-  const { addComment } = usePostInteractions();
+  const { addComment, togglePostLike } = usePostInteractions();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,14 +60,8 @@ export default function PostCard({
   };
 
   useEffect(() => {
-    const handleLikes = async () => {
-      if (!user) return;
-      liked
-        ? await setDoc(doc(db, "posts", id, "likes", user.uid), {
-            username: user.displayName,
-            avatarPhoto: user.photoURL,
-          })
-        : await deleteDoc(doc(db, "posts", id, "likes", user.uid));
+    const handleLikes = () => {
+      togglePostLike(liked, id);
     };
     handleLikes();
   }, [liked]);
@@ -100,6 +94,7 @@ export default function PostCard({
       setShowHeart(false);
     }, 1000);
   };
+
   return (
     <div
       className="border-b pb-5"

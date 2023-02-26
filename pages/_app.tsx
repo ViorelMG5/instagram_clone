@@ -1,6 +1,6 @@
 import { AuthProvider } from "@/hooks/useAuth";
-import { PostInteractionsProvider } from "@/hooks/usePostInteractions";
 import { PostProvider } from "@/hooks/usePost";
+import { PostInteractionsProvider } from "@/hooks/usePostInteractions";
 import { WidthProvider } from "@/hooks/useWidth";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";

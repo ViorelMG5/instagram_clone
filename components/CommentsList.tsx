@@ -36,19 +36,13 @@ export default function CommentsList({ comments, id }: Props) {
   const [commentLikes, setCommentLikes] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
+  const { removeComment, toggleCommentLike } = usePostInteractions();
 
-  const { removeComment } = usePostInteractions();
   useEffect(() => {
-    const handleComments = async () => {
-      if (!user) return;
-      commentLike
-        ? await setDoc(doc(db, "posts", id, "commentLikes", user.uid), {
-            username: user.displayName,
-            avatarPhoto: user.photoURL,
-          })
-        : await deleteDoc(doc(db, "posts", id, "commentLikes", user.uid));
+    const handleCommentsLike = () => {
+      toggleCommentLike(commentLike, id);
     };
-    handleComments();
+    handleCommentsLike();
   }, [commentLike]);
 
   useEffect(() => {
@@ -56,7 +50,6 @@ export default function CommentsList({ comments, id }: Props) {
       setCommentLikes(snapshot.docs)
     );
   }, [db, id]);
-  console.log(commentLikes);
 
   return (
     comments.length > 0 &&
