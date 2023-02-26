@@ -59,7 +59,6 @@ export default function PostCard({
     setComment("");
     addComment(comment, id);
   };
-  console.log(liked);
 
   const handleAddPostLike = () => {
     addPostLike(id);

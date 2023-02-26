@@ -35,20 +35,32 @@ export default function CommentsList({ comments, id }: Props) {
   const [commentLikes, setCommentLikes] = useState<
     QueryDocumentSnapshot<DocumentData>[]
   >([]);
-  const { removeComment, toggleCommentLike } = usePostInteractions();
+  const { removeComment, addCommentLike, removeCommentLike } =
+    usePostInteractions();
+
+  const handleAddCommentLike = () => {
+    addCommentLike(id);
+    setCommentLike(true);
+  };
+
+  const handleRemoveCommentLike = () => {
+    removeCommentLike(id);
+    setCommentLike(false);
+  };
 
   useEffect(() => {
-    const handleCommentsLike = () => {
-      toggleCommentLike(commentLike, id);
-    };
-    handleCommentsLike();
-  }, [commentLike]);
-
-  useEffect(() => {
-    onSnapshot(collection(db, "posts", id, "commentLikes"), (snapshot) =>
+    onSnapshot(collection(db, "posts", id, "commentsLikes"), (snapshot) =>
       setCommentLikes(snapshot.docs)
     );
   }, [db, id]);
+
+  useEffect(() => {
+    commentLikes.filter((comment) =>
+      comment.data().username === user?.displayName
+        ? setCommentLike(true)
+        : setCommentLike(false)
+    );
+  }, [commentLikes]);
 
   return (
     comments.length > 0 &&
@@ -75,12 +87,12 @@ export default function CommentsList({ comments, id }: Props) {
 
           {commentLike ? (
             <AiFillHeart
-              onClick={() => setCommentLike(!commentLike)}
+              onClick={handleRemoveCommentLike}
               className="w-5 h-5 fill-red-500"
             />
           ) : (
             <AiOutlineHeart
-              onClick={() => setCommentLike(!commentLike)}
+              onClick={handleAddCommentLike}
               className="w-5 h-5 text-gray-400 shrink-0 cursor-pointer"
             />
           )}
