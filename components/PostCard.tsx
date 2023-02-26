@@ -42,6 +42,7 @@ export default function PostCard({
   time,
   postDescription,
 }: Props) {
+  const { user } = useAuth();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<
     QueryDocumentSnapshot<DocumentData>[]
@@ -49,9 +50,8 @@ export default function PostCard({
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
   const [showHeart, setShowHeart] = useState(false);
-  const { user } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
-  const { addComment, togglePostLike } = usePostInteractions();
+  const { addComment, togglePostLike, removePost } = usePostInteractions();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -113,7 +113,12 @@ export default function PostCard({
           />
           <span className="font-semibold cursor-pointer">{username} </span>
         </div>
-        <BsThreeDots className="cursor-pointer" />
+        {username === user?.displayName && (
+          <MdDeleteOutline
+            className="cursor-pointer w-5 h-5 text-gray-500"
+            onClick={() => removePost(id)}
+          />
+        )}
       </div>
       <div className="mt-3 relative pt-[100%]">
         <AiFillHeart

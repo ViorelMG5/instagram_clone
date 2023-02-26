@@ -3,8 +3,8 @@ import { Modal } from "@mui/material";
 import { DocumentData } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
+import noUser from "../public/no-profile.jpg";
 import { useState } from "react";
-import { BsPlusSquare } from "react-icons/bs";
 
 interface Props {
   likes: DocumentData | Like[];
@@ -58,7 +58,7 @@ export default function LikesElement({ likes }: Props) {
                   className="flex items-center gap-2"
                 >
                   <Image
-                    src={like.data().avatarPhoto}
+                    src={like.data().avatarPhoto || noUser}
                     alt={`${like.data().username} profile picture`}
                     width={40}
                     height={40}

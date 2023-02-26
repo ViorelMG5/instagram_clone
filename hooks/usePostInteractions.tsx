@@ -24,6 +24,7 @@ import {
 import useAuth from "./useAuth";
 
 interface PostInteractionsContextProps {
+  removePost: (postId: string) => Promise<void>;
   addComment: (comment: string, id: string) => Promise<void>;
   removeComment: (commentId: string, postId: string) => Promise<void>;
   togglePostLike: (liked: boolean, id: string) => Promise<void>;
@@ -34,6 +35,7 @@ interface PostInteractionProviderProps {
   children: React.ReactNode;
 }
 export const CommentsContext = createContext<PostInteractionsContextProps>({
+  removePost: async () => {},
   addComment: async () => {},
   removeComment: async () => {},
   togglePostLike: async () => {},
@@ -45,6 +47,9 @@ export const PostInteractionsProvider = ({
 }: PostInteractionProviderProps) => {
   const { user } = useAuth();
 
+  const removePost = async (postId: string) => {
+    await deleteDoc(doc(db, "posts", postId));
+  };
   const addComment = async (comment: string, id: string) => {
     const commentToSend = comment;
     await addDoc(collection(db, "posts", id, "comments"), {
@@ -80,7 +85,13 @@ export const PostInteractionsProvider = ({
   };
 
   const memoedValues = useMemo(
-    () => ({ addComment, removeComment, togglePostLike, toggleCommentLike }),
+    () => ({
+      removePost,
+      addComment,
+      removeComment,
+      togglePostLike,
+      toggleCommentLike,
+    }),
     []
   );
 
