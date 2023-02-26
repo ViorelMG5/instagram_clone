@@ -62,7 +62,7 @@ export default function LikesElement({ likes }: Props) {
                     alt={`${like.data().username} profile picture`}
                     width={40}
                     height={40}
-                    className="rounded-[100%]"
+                    className="rounded-[100%] w-[40px] h-[40px] object-cover"
                   />
                   <span className="font-medium">{like.data().username}</span>
                 </Link>
