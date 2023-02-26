@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/hooks/useAuth";
+import { PostInteractionsProvider } from "@/hooks/usePostInteractions";
 import { PostProvider } from "@/hooks/usePost";
 import { WidthProvider } from "@/hooks/useWidth";
 import "@/styles/globals.css";
@@ -10,9 +11,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <RecoilRoot>
       <WidthProvider>
         <AuthProvider>
-          <PostProvider>
-            <Component {...pageProps} />
-          </PostProvider>
+          <PostInteractionsProvider>
+            <PostProvider>
+              <Component {...pageProps} />
+            </PostProvider>
+          </PostInteractionsProvider>
         </AuthProvider>
       </WidthProvider>
     </RecoilRoot>

@@ -22,7 +22,8 @@ import { db } from "@/firebase";
 import useAuth from "@/hooks/useAuth";
 import LikesElement from "./LikesElement";
 import CommentsList from "./CommentsList";
-import Link from "next/link";
+import usePostInteractions from "@/hooks/usePostInteractions";
+import { MdDeleteOutline } from "react-icons/md";
 interface Props {
   avatar: string;
   username: string;
@@ -50,17 +51,12 @@ export default function PostCard({
   const [showHeart, setShowHeart] = useState(false);
   const { user } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { addComment } = usePostInteractions();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const commentToSend = comment;
     setComment("");
-    await addDoc(collection(db, "posts", id, "comments"), {
-      comment: commentToSend,
-      user: user?.displayName,
-      id: id,
-      timestamp: serverTimestamp(),
-    });
+    addComment(comment, id);
   };
 
   useEffect(() => {
@@ -105,7 +101,12 @@ export default function PostCard({
     }, 1000);
   };
   return (
-    <div className="border-b pb-5">
+    <div
+      className="border-b pb-5"
+      onClick={() => {
+        console.log(id);
+      }}
+    >
       <div className="flex items-center justify-between ">
         <div className="flex items-center gap-2 ">
           <Image
@@ -162,7 +163,7 @@ export default function PostCard({
           <span className="font-semibold cursor-pointer mr-2">{username}</span>
           {postDescription}{" "}
         </p>
-        <CommentsList comments={comments} userId={userId} id={id} />
+        <CommentsList comments={comments} id={id} />
       </div>
       <form className="mt-3 relative" onSubmit={handleSubmit}>
         <input
