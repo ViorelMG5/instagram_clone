@@ -1,4 +1,4 @@
-import { db } from "@/firebase";
+import { db, storage } from "@/firebase";
 import {
   addDoc,
   collection,
@@ -12,6 +12,7 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 import {
   createContext,
   FormEvent,
@@ -52,7 +53,11 @@ export const PostInteractionsProvider = ({
   const { user } = useAuth();
 
   const removePost = async (postId: string) => {
-    await deleteDoc(doc(db, "posts", postId));
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      await deleteDoc(doc(db, "posts", postId));
+      const imageRef = ref(storage, `posts/${postId}/image`);
+      await deleteObject(imageRef);
+    }
   };
   const addComment = async (comment: string, id: string) => {
     const commentToSend = comment;
